@@ -37,6 +37,7 @@ inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONE
 static const int COINBASE_MATURITY = 50;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
+static const unsigned int FORK_TIME = 1422835200; // 2/2/2015 00:00:00 GMT
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
 #else
