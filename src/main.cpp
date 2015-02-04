@@ -827,12 +827,9 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
     return pblock->GetHash();
 }
 
-int64 static GetBlockValue(int nHeight, int64 nFees, int64 nTime)
+int64 static GetBlockValue(int nHeight, int64 nFees)
 {
     int64 nSubsidy = 8008 * COIN;
-	
-	if (nTime > FORK_TIME)
-		nSubsidy = 3003 * COIN;
 	
 	if (nHeight == 2)
 		nSubsidy = 73644076 * COIN;
@@ -872,53 +869,6 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
     return bnResult.GetCompact();
 }
 
-unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, const CBlock *pblock) {
-/* current difficulty formula, darkcoin - DarkGravity v3, written by Evan Duffield - evan@darkcoin.io */
-const CBlockIndex *BlockLastSolved = pindexLast;
-const CBlockIndex *BlockReading = pindexLast;
-const CBlock *BlockCreating = pblock;
-BlockCreating = BlockCreating;
-int64 nActualTimespan = 0;
-int64 LastBlockTime = 0;
-int64 PastBlocksMin = 24;
-int64 PastBlocksMax = 24;
-int64 CountBlocks = 0;
-CBigNum PastDifficultyAverage;
-CBigNum PastDifficultyAveragePrev;
-if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || BlockLastSolved->nHeight < PastBlocksMin) {
-return bnProofOfWorkLimit.GetCompact();
-}
-for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
-if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
-CountBlocks++;
-if(CountBlocks <= PastBlocksMin) {
-if (CountBlocks == 1) { PastDifficultyAverage.SetCompact(BlockReading->nBits); }
-else { PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks)+(CBigNum().SetCompact(BlockReading->nBits))) / (CountBlocks+1); }
-PastDifficultyAveragePrev = PastDifficultyAverage;
-}
-if(LastBlockTime > 0){
-int64 Diff = (LastBlockTime - BlockReading->GetBlockTime());
-nActualTimespan += Diff;
-}
-LastBlockTime = BlockReading->GetBlockTime();
-if (BlockReading->pprev == NULL) { assert(BlockReading); break; }
-BlockReading = BlockReading->pprev;
-}
-CBigNum bnNew(PastDifficultyAverage);
-int64 nTargetTimespan = CountBlocks*nTargetSpacing;
-if (nActualTimespan < nTargetTimespan/3)
-nActualTimespan = nTargetTimespan/3;
-if (nActualTimespan > nTargetTimespan*3)
-nActualTimespan = nTargetTimespan*3;
-// Retarget
-bnNew *= nActualTimespan;
-bnNew /= nTargetTimespan;
-if (bnNew > bnProofOfWorkLimit){
-bnNew = bnProofOfWorkLimit;
-}
-return bnNew.GetCompact();
-}
-
 unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlock *pblock)
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
@@ -929,9 +879,6 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 	
 	if (pindexLast->nHeight+1 == 10)
 		return bnInitialDifficulty.GetCompact();
-	
-	if (pindexLast->nTime > FORK_TIME)
-		return DarkGravityWave3(pindexLast, pblock);
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
@@ -1469,7 +1416,7 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex)
             return error("ConnectBlock() : UpdateTxIndex failed");
     }
 
-    if (vtx[0].GetValueOut() > GetBlockValue(pindex->nHeight, nFees, pindex->nTime))
+    if (vtx[0].GetValueOut() > GetBlockValue(pindex->nHeight, nFees))
         return false;
 
     // Update block index on disk without changing it in memory.
@@ -3571,7 +3518,7 @@ CBlock* CreateNewBlock(CReserveKey& reservekey)
         printf("CreateNewBlock(): total size %lu\n", nBlockSize);
 
     }
-    pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees, pblock->nTime);
+    pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
 
     // Fill in header
     pblock->hashPrevBlock  = pindexPrev->GetBlockHash();
