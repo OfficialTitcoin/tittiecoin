@@ -468,7 +468,7 @@ bool AppInit2()
     std::ostringstream strErrors;
 
     if (fDaemon)
-        fprintf(stdout, "TittieCoin server starting\n");
+        fprintf(stdout, "TittieCoin server %s starting\n", FormatFullVersion().c_str());
 
     int64 nStart;
 
