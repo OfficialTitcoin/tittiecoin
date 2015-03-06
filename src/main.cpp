@@ -836,7 +836,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
         
     // reduce block reward to 168 at Block 140000       
         if (nHeight > 139999) 
-                nSubsidy = 168 * COIN;
+                nSubsidy = 138 * COIN;
     
 	// Block reward halves every 2 years
     nSubsidy >>= (nHeight / 350400); //Raroun: right shift by x bit - nSubsity = /2, /4, /8 and so on if Block height > 350400 
