@@ -48,7 +48,7 @@ sudo port install qrencode
 
 4.  Now you should be able to build TittieCoind:
 
-cd litecoin/src
+cd ltittiecoin/src
 make -f makefile.osx USE_UPNP=1 USE_QRCODE=1 USE_IPV6=1 
 
 Run:
