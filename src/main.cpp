@@ -834,8 +834,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 	if (nHeight == 2)
 		nSubsidy = 73644076 * COIN; //Tittiecoin: premine
         
-    // reduce block reward to 168 at Block 140000       
-        if (nHeight > 139999) 
+    // reduce block reward to 168 at Block 141500       
+        if (nHeight > 141499) 
                 nSubsidy = 138 * COIN;
     
 	// Block reward halves every 2 years
