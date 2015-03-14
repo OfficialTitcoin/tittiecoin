@@ -939,12 +939,11 @@ unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, const CBlock
         bnNew = bnProofOfWorkLimit;
     }
  
-    // only display this information in debug mode
-    if (fDebug) {
+    // Display this till Version 1.7.5 is Released
         printf("Difficulty Retarget - Dark Gravity Wave 3\n");
         printf("Before: %08x %s\n", BlockLastSolved->nBits, CBigNum().SetCompact(BlockLastSolved->nBits).getuint256().ToString().c_str());
         printf("After: %08x %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
-    }
+ 
     // Return the new diff.
     return bnNew.GetCompact();
 }
