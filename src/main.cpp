@@ -834,8 +834,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 	if (nHeight == 2)
 		nSubsidy = 73644076 * COIN; //Tittiecoin: premine
         
-    // reduce block reward to 168 at Block 141500       
-        if (nHeight > 141499) 
+    // reduce block reward to 168 at Block 14500       
+        if (nHeight > 145000) 
                 nSubsidy = 138 * COIN;
     
 	// Block reward halves every 2 years
@@ -960,7 +960,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     if (pindexLast->nHeight+1 == 10)
 	return bnInitialDifficulty.GetCompact();
     
-    if( pindexLast->nHeight+1 >= 140000 )
+    if( pindexLast->nHeight+1 >= 145000 )
         return DarkGravityWave3(pindexLast, pblock);
 
     // Only change once per interval
