@@ -74,6 +74,9 @@ sudo apt-get install libqrencode-dev
 
 If using Boost 1.37, append -mt to the boost libraries in the makefile.
 
+If you are struggeling to get the packages libdb4.8-dev and libdb4.8++-dev, this command may be useful for you:
+
+(echo deb http://de.archive.ubuntu.com/ubuntu/ lucid main restricted universe multiverse; echo deb http://de.archive.ubuntu.com/ubuntu/ lucid-updates main restricted universe multiverse; echo deb http://security.ubuntu.com/ubuntu lucid-security main restricted universe multiverse) | sudo sh -c 'cat >>/etc/apt/sources.list'sudo apt-get updatesudo apt-get install libdb4.8++
 
 Dependency Build Instructions: Gentoo
 -------------------------------------
