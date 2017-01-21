@@ -1,4 +1,4 @@
-Translations
+Translations for TittieCoin
 ============
 
 The Qt GUI can be easily translated into other languages. Here's how we
