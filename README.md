@@ -7,7 +7,8 @@ What is TittieCoin?
 TittieCoin (TTC) is an experimental digital currency created by a trusted group of
 developers early Febuary 2014. TTC is currently being developed to be
 the exclusive currency for Tittie Island, a vision that we are working towards.
-The TTC technology enables instant payments to anyone, anywhere in the world.
+The TTC technology enables instant payments to anyone, anywhere in the world, however,
+the main real world use for TittieCoin will be for goods and services on Tittie island. 
 Bitcoin led the way with this technology and was first released In November 2008,
 a paper was posted on the internet under the name Satoshi Nakamotouses peer-to-peer
 technology to operate with no central authority: managing transactions and issuing
